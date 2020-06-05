@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+<h1>Taikatemppu</h1>
+<p id="ohje1">Valitse jokin luku väliltä 1-27</p>
+<input type="text" id="luku" value="" style="width:300px;"/>
+<p><button id="lukunappi">Ok</button></p>
+<p id="tulokset1"></p>
+<p><strong id="tulokset2"></strong></p>
+<h2 id="tulokset3"></h2>
+
+
+<p id="ohje2"></p>
+
+<p id="teksti1">Pino 1: <strong id="pino0"></strong></p>
+<p><button id="p0">Valitse</button></p>
+<p id="teksti2">Pino 2: <strong id="pino1"></strong></p>
+<p><button id="p1">Valitse</button></p>
+<p id="teksti3">Pino 3: <strong id="pino2"></strong></p>
+<p><button id="p2">Valitse</button></p>
+
+
+<script>
+
+
+lukunappi.addEventListener('click', aloita);
+p0.addEventListener('click', teeValinta0);
+p1.addEventListener('click', teeValinta1);
+p2.addEventListener('click', teeValinta2);
+
+var kierros = 0;
+
+var kortit = ["<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>"
+              , "<9>", "<10>", "<11>", "<12>", "<13>", "[1]", "[2]"
+              , "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "[9]", "[10]"
+              , "[11]", "[12]", "[13]", "(1)", "(2)", "(3)", "(4)"
+              , "(5)", "(6)", "(7)", "(8)", "(9)", "(10)", "(11)"
+              , "(12)", "(13)", "{1}", "{2}", "{3}", "{4}", "{5}"
+              , "{6}", "{7}", "{8}", "{9}", "{10}", "{11}", "{12}", "{13}"];
+
+var pakka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+                 , 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+    for (var i = pakka.length - 1; i > 0; i--) {
+        var a = Math.floor(Math.random() * (i + 1));
+        var temp = pakka[i];
+        pakka[i] = pakka[a];
+        pakka[a] = temp;
+    }
+
+var valittuluku = 0
+
+var jarjestys = [];
+
+var pino0 = [];
+var pino1 = [];
+var pino2 = [];
+
+
+
+function laita_paalle(a, b, c) {
+    var pakka = []
+    for (var i = 0; i < a.length; i++) {
+        pakka.push(a[i])
+    }
+    for (var i = 0; i < b.length; i++) {
+        pakka.push(b[i])
+    }
+    for (var i = 0; i < c.length; i++) {
+        pakka.push(c[i])
+    }
+    return pakka
+}
+    
+
+
+    
+function laita_keskelle(a, b, c) {
+    var pakka = []
+    for (var i = 0; i < b.length; i++) {
+        pakka.push(b[i])
+    }
+    for (var i = 0; i < a.length; i++) {
+        pakka.push(a[i])
+    }
+    for (var i = 0; i < c.length; i++) {
+        pakka.push(c[i])
+    }
+    return pakka
+}
+    
+    
+    
+function laita_pohjalle(a, b, c) {
+    var pakka = []
+    for (var i = 0; i < b.length; i++) {
+        pakka.push(b[i])
+    }
+    for (var i = 0; i < c.length; i++) {
+        pakka.push(c[i])
+    }
+    for (var i = 0; i < a.length; i++) {
+        pakka.push(a[i])
+    }
+    return pakka
+}
+    
+
+
+function jaa(pakka) {
+    //console.log("pakka");
+    //console.log(pakka);
+    var p0 = []
+    var p1 = []
+    var p2 = []
+    var indeksi = 0
+    for (var i = 0; i < 9; i++) {
+        console.log("indeksi: ");
+        console.log(indeksi);
+        console.log("i: ");
+        console.log(i);
+        p0.push(pakka[indeksi])
+        indeksi++
+        console.log("indeksi: ");
+        console.log(indeksi);
+        p1.push(pakka[indeksi])
+        indeksi++
+        p2.push(pakka[indeksi])
+        indeksi++
+        console.log("indeksi: ");
+        console.log(indeksi);
+    
+    
+    
+    }
+    return [p0, p1, p2]
+}
+         
+    
+function laske_jarjestys(valittu) {
+    var numero = valittu - 1
+    
+    var ysit = Math.floor(numero / 9)
+    var numero = numero - 9 * ysit
+    var kolmoset = Math.floor(numero / 3)
+    var numero = numero - 3 * kolmoset
+    var ykkoset = Math.floor(numero / 1)
+    var numero = numero - ykkoset
+    
+    
+    var jarjestys = [ykkoset, kolmoset, ysit]
+    
+    return jarjestys
+}
+    
+
+function teeValinta0() {
+    if (kierros > 0 && kierros < 4) {
+        var kierrosindeksi = kierros - 1
+        if (jarjestys[kierrosindeksi] == 0) {
+        pakka = laita_paalle(pino0, pino1, pino2)
+        }
+        if (jarjestys[kierrosindeksi] == 1) {
+            pakka = laita_keskelle(pino0, pino1, pino2)
+        }
+        if (jarjestys[kierrosindeksi] == 2) {
+            pakka = laita_pohjalle(pino0, pino1, pino2)
+        }
+        teetaikoja()
+    }
+    
+}
+
+
+function teeValinta1() {
+    
+    if (kierros > 0 && kierros < 4) {
+        var kierrosindeksi = kierros - 1
+        if (jarjestys[kierrosindeksi] == 0) {
+        pakka = laita_paalle(pino1, pino0, pino2)
+        }
+        if (jarjestys[kierrosindeksi] == 1) {
+        pakka = laita_keskelle(pino1, pino0, pino2)
+        }
+        if (jarjestys[kierrosindeksi] == 2) {
+        pakka = laita_pohjalle(pino1, pino0, pino2)
+        }
+        teetaikoja()
+    }
+        
+    
+}
+
+function teeValinta2() {
+    if (kierros > 0 && kierros < 4) {
+        var kierrosindeksi = kierros - 1
+        if (jarjestys[kierrosindeksi] == 0) {
+        pakka = laita_paalle(pino2, pino0, pino1)
+        }
+        if (jarjestys[kierrosindeksi] == 1) {
+        pakka = laita_keskelle(pino2, pino0, pino1)
+        }
+        if (jarjestys[kierrosindeksi] == 2) {
+        pakka = laita_pohjalle(pino2, pino0, pino1)
+        }
+    
+        teetaikoja()
+        }
+    
+}
+
+
+function teetaikoja() {
+    kierros++
+    var pinot = jaa(pakka)
+    
+    pino0 = pinot[0]
+    pino1 = pinot[1]
+    pino2 = pinot[2]
+    
+
+    var eka ="";
+    for (var i = 0; i < pinot[0].length; i++) {
+    //for (var x in pinot[0]) {
+        //console.log(pinot[0][i]);
+        eka += kortit[pinot[0][i]] + " ";
+    }
+    
+    var toka ="";
+    for (var i = 0; i < pinot[1].length; i++) {
+    //for (var x in pinot[0]) {
+        //console.log(pinot[0][i]);
+        toka += kortit[pinot[1][i]] + " ";
+    }
+    
+    var kolmas ="";
+    for (var i = 0; i < pinot[2].length; i++) {
+    //for (var x in pinot[0]) {
+        //console.log(pinot[0][i]);
+        kolmas += kortit[pinot[2][i]] + " ";
+    }
+    
+    if (kierros == 1) {
+        document.getElementById("ohje1").innerHTML = "Valitse jokin kortti seuraavista pinoista ja laita se tarvittaessa itsellsi muistiin johonkin."
+    } else {
+        document.getElementById("ohje1").style.display = 'none';
+    }
+    
+    if (kierros == 4) {
+        document.getElementById("ohje2").style.display = 'none';
+        document.getElementById("teksti1").style.display = 'none';
+        document.getElementById("teksti2").style.display = 'none';
+        document.getElementById("teksti3").style.display = 'none';
+        document.getElementById("pino0").style.display = 'none';
+        document.getElementById("pino1").style.display = 'none';
+        document.getElementById("pino2").style.display = 'none';
+        document.getElementById("p0").style.display = 'none';
+        document.getElementById("p1").style.display = 'none';
+        document.getElementById("p2").style.display = 'none';
+        var valittukortti = "";
+        var kaikkikortit = "";
+        for (var i = 0; i < pakka.length; i++) {
+            kaikkikortit += kortit[pakka[i]] + " ";
+            if (i + 1 == valittuluku) {
+                valittukortti = kortit[pakka[i]]
+            }
+        }
+        document.getElementById("tulokset1").innerHTML = kaikkikortit
+        document.getElementById("tulokset2").innerHTML = "Valitsit alussa luvun " + valittuluku 
+                                                        + ". Valitsemasi kortti on pakan " + valittuluku + " kortti."
+        //var kortinindeksi = parseInt(valittuluku) + 1
+        //console.log(kortinindeksi)
+        document.getElementById("tulokset3").innerHTML = "Valitsemasi kortti on: " + valittukortti
+        
+    } else {
+        //var eka = kortit[pinot[0][0]] + ", " kortit[pinot[0][1]] + ", " kortit[pinot[0][1]];
+    
+        document.getElementById("pino0").innerHTML = eka
+        document.getElementById("pino1").innerHTML = toka
+        document.getElementById("pino2").innerHTML = kolmas
+        
+        document.getElementById("ohje2").innerHTML = "Missä pinossa korttisi tällä hetkellä on?"
+    }
+    
+        
+    }
+
+
+
+function aloita() {
+    valittuluku = document.getElementById("luku").value;
+    if (valittuluku > 0 && valittuluku < 28) {
+        //document.getElementById(question).style.display = 'block';
+        document.getElementById("luku").style.display = 'none';
+        document.getElementById("lukunappi").style.display = 'none';
+        
+        jarjestys = laske_jarjestys(valittuluku);
+        //console.log(jarjestys)
+        //document.getElementById("lukuteksti").style.display = 'none';
+        teetaikoja()
+    } else {
+        document.getElementById("ohje1").innerHTML = "Hmm... Olen aika varma, että " + valittuluku + " ei ole numero väliltä 1-27... Yritäpä uudelleen..."
+    }
+    
+}
+
+</script>
+
+</body>
+</html>
